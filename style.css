@@ -9,9 +9,11 @@ body {
 div {
     margin-left: auto;
     margin-right: auto;
-    /*background-color: whitesmoke;*/
+    background-color: green;
     /*border-radius: 10pt;*/
     border-color: darkslategray;
+    height: 200pt;
+    width: 200pt;
 }
 
 .viewer {

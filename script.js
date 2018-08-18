@@ -1,9 +1,12 @@
+// getHttpList();
+// render();
 getHttpList();
 
-
-function render(lst){
+function render(){
     let viewer = document.createElement('div');
     viewer.setAttribute('class','viewer');
+    document.body.appendChild(viewer);
+    
 }
 
 function getHttpList(){
@@ -11,8 +14,15 @@ function getHttpList(){
   newQuery.open("GET", 'https://randomuser.me/api/', false);
   newQuery.send( null );
 
-  let result = JSON.parse(newQuery.response);
-  // let resultNum = Math.floor(Math.random()*10);
+  let response = JSON.parse(newQuery.response);
+  console.log(response.results[0].gender);
 
-  render(result);
+  console.log(response);
+  // if result.
+
+  return new Promise((resolve,reject)=>{
+    if (response.results[0].gender === 'female') { resolve(response.results[0])}
+    else {reject('nothing found');}
+  })
+
 }
