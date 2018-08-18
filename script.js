@@ -1,7 +1,7 @@
 getHttpList();
 
 
-function render(){
+function render(lst){
     let viewer = document.createElement('div');
     viewer.setAttribute('class','viewer');
 }
@@ -14,6 +14,5 @@ function getHttpList(){
   let result = JSON.parse(newQuery.response);
   // let resultNum = Math.floor(Math.random()*10);
 
-  console.log(result);
-  render();
+  render(result);
 }
