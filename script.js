@@ -6,13 +6,11 @@ function work(){
   let viewer = document.getElementById('main');
   viewer.innerHTML = '';
   viewer.setAttribute('class', '');
-  // <div class="loader"></div>
   let spinner = document.createElement('div');
   spinner.setAttribute('class','loader');
   viewer.appendChild(spinner);
 
   setTimeout(call, 1000 + Math.ceil(Math.random()*1000) );
-  // render(getHttpList());
 }
 
 function call(){
@@ -69,7 +67,6 @@ function createUserPic(pic){
 
   let image = document.createElement('img');
   image.setAttribute('src', pic);
-  // image.setAttribute('class',100);
   innerDiv.appendChild(image);
   return innerDiv;
 }
@@ -81,12 +78,10 @@ function getHttpList(){
 
   let response = JSON.parse(newQuery.response);
 
-  // return response.results[0];
   return new Promise((resolve,reject)=>{
     if ( Math.random() > 0.15) {
       return reject('something went wrong, try again later');
     }
     return resolve(response.results[0]);
   })
-
 }
