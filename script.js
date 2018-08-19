@@ -9,6 +9,7 @@ function work(){
   let spinner = document.createElement('div');
   spinner.setAttribute('class','loader');
   viewer.appendChild(spinner);
+
   setTimeout(call, 1000 + Math.ceil(Math.random()*1000) );
 }
 
@@ -78,6 +79,7 @@ function getHttpList(){
   let response = JSON.parse(newQuery.response);
 
   return new Promise((resolve,reject)=>{
+
     if ( (Math.random() < 0.5) && ( response.results[0].gender !== 'female')) {
       console.log('bad luck');
       return reject('something went wrong, try again later');
