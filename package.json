@@ -1,26 +1,23 @@
 {
-  "name": "RandomUser",
-  "version": "0.0.1",
-  "description": "",
+  "name": "promise",
+  "version": "1.0.0",
+  "description": "my random user api project",
   "main": "script.js",
+  "dependencies": {
+    "eslint": "^5.4.0"
+  },
+  "devDependencies": {},
   "scripts": {
-    "test": "jest"
+    "test": "npm jest"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/JetFighterrr/Promise"
+    "url": "git+https://github.com/JetFighterrr/Promise.git"
   },
   "author": "JetFighterrr",
   "license": "ISC",
-  "devDependencies": {
-    "eslint": "^5.2.0"
+  "bugs": {
+    "url": "https://github.com/JetFighterrr/Promise/issues"
   },
-  "dependencies": {
-    "bootstrap": "^3.3.7",
-    "jest": "^23.5.0"
-  },
-  "jest": {
-    "verbose": true,
-    "testEnvironment": "node"
-  }
+  "homepage": "https://github.com/JetFighterrr/Promise#readme"
 }

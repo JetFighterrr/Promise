@@ -1,3 +1,5 @@
+// const axios = require('./node_modules/axios/index.js');
+
 String.prototype.makeName = function(){
   return ( this[0].toUpperCase() + this.slice(1) );
 };
@@ -9,15 +11,24 @@ function work(){
 }
 
 function call(){
-  getHttpList()
-    .then((resolve) => render(resolve))
-    .catch( (reject) => renderError(reject));
+  const axios = require('axios');
+
+  axios.get(`https://randomuser.me/api/`)
+    .then(resolve => {
+      const reply = JSON.parse(resolve);
+      console.log(reply);
+      render(reply.results[0]);
+    })
+    .catch(reject => renderError(reject));
+  // getHttpList()
+  //   .then((resolve) => render(resolve))
+  //   .catch( (reject) => renderError(reject));
 }
 
-function render(lst){
+function render(userData){
   const viewer = setViewer('viewer big');
-  viewer.appendChild(createUserPic(lst.picture.large));
-  const infoWatch = fillInfoList(lst);
+  viewer.appendChild(createUserPic(userData.picture.large));
+  const infoWatch = fillInfoList(userData);
   viewer.appendChild(infoWatch);
   document.body.appendChild(viewer);
 }
@@ -30,14 +41,14 @@ function renderError(message) {
 }
 
 function setViewer(className){
-  let viewerDiv = document.getElementById('main');
+  const viewerDiv = document.getElementById('main');
   viewerDiv.innerHTML = '';
   viewerDiv.setAttribute('class', className);
   return viewerDiv;
 }
 
 function setSpinner(){
-  let spinner = document.createElement('div');
+  const spinner = document.createElement('div');
   spinner.setAttribute('class','loader');
   return spinner;
 }
@@ -64,14 +75,14 @@ function fillInfoListError(msg){
 }
 
 function createUserInfo(field, text){
-  let webInfo = document.createElement('p');
-  webInfo.setAttribute('class','info');
-  webInfo.innerHTML = field + ' ' + text;
-  return webInfo;
+  const userInfo = document.createElement('p');
+  userInfo.setAttribute('class','info');
+  userInfo.innerHTML = field + ' ' + text;
+  return userInfo;
 }
 
 function createUserPic(pic){
-  let innerDiv = document.createElement('div');
+  const innerDiv = document.createElement('div');
   innerDiv .setAttribute('class','img');
 
   let image = document.createElement('img');
@@ -80,16 +91,21 @@ function createUserPic(pic){
   return innerDiv;
 }
 
-function getHttpList(){
-  let newQuery = new XMLHttpRequest();
-  newQuery.open("GET", 'https://randomuser.me/api/', false);
-  newQuery.send( null );
-  let response = JSON.parse(newQuery.response);
-  return new Promise((resolve,reject)=>{
-    if ( (Math.random() < 0.5) && ( response.results[0].gender !== 'female')) {
-      console.log('bad luck');
-      return reject('something went wrong, try again later');
-    }
-    return resolve(response.results[0]);
-  })
-}
+// function getHttpList(){
+//   axios.get(`https://randomuser.me/api/`)
+//     .then(res => {
+//       const persons = res.data;
+//       this.setState({ persons });
+//     });
+//   const newQuery = new XMLHttpRequest();
+//   newQuery.open("GET", 'https://randomuser.me/api/', false);
+//   newQuery.send( null );
+//   const response = JSON.parse(newQuery.response);
+//   return new Promise((resolve,reject)=>{
+//     if ( (Math.random() < 0.5) && ( response.results[0].gender !== 'female')) {
+//       console.log('bad luck');
+//       return reject('something went wrong, try again later');
+//     }
+//     return resolve(response.results[0]);
+//   })
+// }
