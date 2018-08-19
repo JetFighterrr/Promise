@@ -13,26 +13,29 @@ img {
     /*border-radius: 50%;*/
     height: 100pt;
     width: 100pt;
+    margin-top: 8pt;
+    margin-bottom: 15pt;
     margin-left: auto;
     margin-right: auto;
 }
 
 .info{
-    margin-left: 70pt;
+    margin-left: 50pt;
     font-size: x-large;
 }
 
 .viewer {
+    margin-top: 15pt;
     margin-left: auto;
     margin-right: auto;
     /*background-color: green;*/
     /*border-radius: 10pt;*/
     border-color: darkslategray;
     border:  2pt solid;
-    height: 400pt;
+    height: 370pt;
     width: 400pt;
     background-color: whitesmoke;
-    border-radius: 18pt;
+    border-radius: 22pt;
     border-color: darkmagenta;
     border-width: 3pt;
 }

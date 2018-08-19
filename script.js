@@ -14,35 +14,22 @@ function work(){
 }
 
 function render(lst){
-  document.getElementsByTagName('div').innerHTML = '';
-
-  let viewer = document.createElement('div');
-
+  let viewer = document.getElementById('main');
+  viewer.innerHTML = '';
   viewer.setAttribute('class','viewer');
 
-  let innerDiv = document.createElement('div');
-  innerDiv .setAttribute('class','img');
-
-
-  let image = document.createElement('img');
-  image.setAttribute('src',lst.picture.large);
-  image.setAttribute('class',100);
-  // image.setAttribute('height',100);
-  innerDiv.appendChild(image);
-
-  viewer.appendChild(innerDiv);
+  viewer.appendChild(createUserPic(lst.picture.large));
 
   let infoWatch = document.createElement('div');
   infoWatch.appendChild(createUserInfo('Name',  lst.name.title.makeName() + ' '
                                               + lst.name.first.makeName() + ' '
                                               + lst.name.last.makeName()));
   infoWatch.appendChild(createUserInfo('Phone Number', lst.phone.toString()));
-  infoWatch.appendChild(createUserInfo('e-mail', lst.email));
+  infoWatch.appendChild(createUserInfo('E-mail', lst.email));
   infoWatch.appendChild(createUserInfo('Gender', lst.gender.toString().makeName()));
+  infoWatch.appendChild(createUserInfo('City',lst.location.city.makeName()));
+  infoWatch.appendChild(createUserInfo('State',lst.location.state.makeName()));
   viewer.appendChild(infoWatch);
-
-
-
 
   document.body.appendChild(viewer);
 }
@@ -52,6 +39,17 @@ function createUserInfo(field, text){
   webInfo.setAttribute('class','info');
   webInfo.innerHTML = field + ': ' + text;
   return webInfo;
+}
+
+function createUserPic(pic){
+  let innerDiv = document.createElement('div');
+  innerDiv .setAttribute('class','img');
+
+  let image = document.createElement('img');
+  image.setAttribute('src', pic);
+  // image.setAttribute('class',100);
+  innerDiv.appendChild(image);
+  return innerDiv;
 }
 
 function getHttpList(){
