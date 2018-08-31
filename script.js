@@ -1,4 +1,3 @@
-// const axios = require('./node_modules/axios/index.js');
 
 String.prototype.makeName = function(){
   return ( this[0].toUpperCase() + this.slice(1) );
@@ -7,22 +6,20 @@ String.prototype.makeName = function(){
 function work(){
   let viewer = setViewer('');
   viewer.appendChild(setSpinner());
-  setTimeout(call, 1000 + Math.ceil(Math.random()*1000) );
+  setTimeout(call(), 1000 + Math.ceil(Math.random()*1000) );
 }
 
 function call(){
-  const axios = require('axios');
 
   axios.get(`https://randomuser.me/api/`)
     .then(resolve => {
-      const reply = JSON.parse(resolve);
-      console.log(reply);
-      render(reply.results[0]);
+      const reply = resolve.data.results[0];
+      render(reply);
     })
-    .catch(reject => renderError(reject));
-  // getHttpList()
-  //   .then((resolve) => render(resolve))
-  //   .catch( (reject) => renderError(reject));
+    .catch(reject => {
+      console.log(reject);
+      renderError(reject)
+    });
 }
 
 function render(userData){
@@ -90,22 +87,3 @@ function createUserPic(pic){
   innerDiv.appendChild(image);
   return innerDiv;
 }
-
-// function getHttpList(){
-//   axios.get(`https://randomuser.me/api/`)
-//     .then(res => {
-//       const persons = res.data;
-//       this.setState({ persons });
-//     });
-//   const newQuery = new XMLHttpRequest();
-//   newQuery.open("GET", 'https://randomuser.me/api/', false);
-//   newQuery.send( null );
-//   const response = JSON.parse(newQuery.response);
-//   return new Promise((resolve,reject)=>{
-//     if ( (Math.random() < 0.5) && ( response.results[0].gender !== 'female')) {
-//       console.log('bad luck');
-//       return reject('something went wrong, try again later');
-//     }
-//     return resolve(response.results[0]);
-//   })
-// }
