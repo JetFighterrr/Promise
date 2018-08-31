@@ -1,89 +1,89 @@
+
 String.prototype.makeName = function(){
   return ( this[0].toUpperCase() + this.slice(1) );
 };
 
 function work(){
-  let viewer = document.getElementById('main');
-  viewer.innerHTML = '';
-  viewer.setAttribute('class', '');
-  let spinner = document.createElement('div');
-  spinner.setAttribute('class','loader');
-  viewer.appendChild(spinner);
-
-  setTimeout(call, 1000 + Math.ceil(Math.random()*1000) );
+  let viewer = setViewer('');
+  viewer.appendChild(setSpinner());
+  setTimeout(call(), 1000 + Math.ceil(Math.random()*1000) );
 }
 
 function call(){
-  getHttpList()
-    .then((resolve) => render(resolve))
-    .catch( (reject) => renderError(reject));
+
+  axios.get(`https://randomuser.me/api/`)
+    .then(resolve => {
+      const reply = resolve.data.results[0];
+      render(reply);
+    })
+    .catch(reject => {
+      console.log(reject);
+      renderError(reject)
+    });
+}
+
+function render(userData){
+  const viewer = setViewer('viewer big');
+  viewer.appendChild(createUserPic(userData.picture.large));
+  const infoWatch = fillInfoList(userData);
+  viewer.appendChild(infoWatch);
+  document.body.appendChild(viewer);
 }
 
 function renderError(message) {
-  let viewer = document.getElementById('main');
-  viewer.innerHTML = '';
-  viewer.setAttribute('class', 'viewer small');
-
-  let infoWatch = document.createElement('div');
-  infoWatch.setAttribute('class','plain');
-  infoWatch.appendChild(createUserInfo('Sorry,',message));
+  const viewer = setViewer('viewer small');
+  const infoWatch = fillInfoListError(message);
   viewer.appendChild(infoWatch);
-
   document.body.appendChild(viewer);
 }
 
-function render(lst){
-  let viewer = document.getElementById('main');
-  viewer.innerHTML = '';
-  viewer.setAttribute('class','viewer big');
+function setViewer(className){
+  const viewerDiv = document.getElementById('main');
+  viewerDiv.innerHTML = '';
+  viewerDiv.setAttribute('class', className);
+  return viewerDiv;
+}
 
-  viewer.appendChild(createUserPic(lst.picture.large));
+function setSpinner(){
+  const spinner = document.createElement('div');
+  spinner.setAttribute('class','loader');
+  return spinner;
+}
 
-  let infoWatch = document.createElement('div');
-  infoWatch.setAttribute('class','plain');
-  infoWatch.appendChild(createUserInfo('Name:',  lst.name.title.makeName() + ' '
-                                              + lst.name.first.makeName() + ' '
-                                              + lst.name.last.makeName()));
-  infoWatch.appendChild(createUserInfo('Phone Number:', lst.phone.toString()));
-  infoWatch.appendChild(createUserInfo('E-mail:', lst.email));
-  infoWatch.appendChild(createUserInfo('Gender:', lst.gender.toString().makeName()));
-  infoWatch.appendChild(createUserInfo('City:',lst.location.city.makeName()));
-  infoWatch.appendChild(createUserInfo('State:',lst.location.state.makeName()));
-  viewer.appendChild(infoWatch);
+function fillInfoList(someData) {
+  const infoList = document.createElement('div');
+  infoList.setAttribute('class','plain');
+  infoList.appendChild(createUserInfo('Name:', someData.name.title.makeName() + ' '
+                                                + someData.name.first.makeName() + ' '
+                                                + someData.name.last.makeName()));
+  infoList.appendChild(createUserInfo('Phone Number:', someData.phone.toString()));
+  infoList.appendChild(createUserInfo('E-mail:', someData.email));
+  infoList.appendChild(createUserInfo('Gender:', someData.gender.toString().makeName()));
+  infoList.appendChild(createUserInfo('City:', someData.location.city.makeName()));
+  infoList.appendChild(createUserInfo('State:', someData.location.state.makeName()));
+  return infoList;
+}
 
-  document.body.appendChild(viewer);
+function fillInfoListError(msg){
+  const infoList = document.createElement('div');
+  infoList.setAttribute('class','plain');
+  infoList.appendChild(createUserInfo('Sorry,',msg));
+  return infoList;
 }
 
 function createUserInfo(field, text){
-  let webInfo = document.createElement('p');
-  webInfo.setAttribute('class','info');
-  webInfo.innerHTML = field + ' ' + text;
-  return webInfo;
+  const userInfo = document.createElement('p');
+  userInfo.setAttribute('class','info');
+  userInfo.innerHTML = field + ' ' + text;
+  return userInfo;
 }
 
 function createUserPic(pic){
-  let innerDiv = document.createElement('div');
+  const innerDiv = document.createElement('div');
   innerDiv .setAttribute('class','img');
 
   let image = document.createElement('img');
   image.setAttribute('src', pic);
   innerDiv.appendChild(image);
   return innerDiv;
-}
-
-function getHttpList(){
-  let newQuery = new XMLHttpRequest();
-  newQuery.open("GET", 'https://randomuser.me/api/', false);
-  newQuery.send( null );
-
-  let response = JSON.parse(newQuery.response);
-
-  return new Promise((resolve,reject)=>{
-
-    if ( (Math.random() < 0.5) && ( response.results[0].gender !== 'female')) {
-      console.log('bad luck');
-      return reject('something went wrong, try again later');
-    }
-    return resolve(response.results[0]);
-  })
 }
